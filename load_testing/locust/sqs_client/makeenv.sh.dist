@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export AWS_REGION=
+export SQS_URL=
