@@ -1,3 +1,8 @@
+"""
+
+Drop Celery queued tasks using Redis Backend.
+
+"""
 import json
 import logging
 from itertools import chain

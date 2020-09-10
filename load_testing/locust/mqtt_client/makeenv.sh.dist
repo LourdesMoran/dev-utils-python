@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+#!/usr/bin/env bash
+
+export MQTT_HOST=
+export MQTT_USERNAME=
+export MQTT_PASSWORD=

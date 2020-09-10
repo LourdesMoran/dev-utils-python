@@ -18,33 +18,26 @@ import string
 import boto3
 from locust import User, task
 
-from auth import SQSClient
+from auth import MQTTClient
 
 # Parameters
-REGION = os.getenv("AWS_REGION")
-SQS_URL = os.getenv("SQS_URL")
-SQS_CONN = boto3.client("sqs", region_name=REGION)
+MQTT_HOST = os.getenv("MQTT_HOST")
+MQTT_USERNAME = os.getenv("MQTT_USERNAME")
+MQTT_PASSWORD = os.getenv("MQTT_PASSWORD")
 
 
-def get_random_string(length):
-    letters = string.ascii_lowercase
-    return "".join(random.choice(letters) for i in range(length))
-
-
-class SQSUser(User):
+class MQTTUser(User):
     min_wait = 0
     max_wait = 0
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.client = SQSClient()
+        self.client = MQTTClient()
         self.client._locust_environment = self.environment
 
     @task()
     def send_data(self):
-        self.client.request(
-            SQS_URL, self.generate_payload(), SQS_CONN,
-        )
+        self.client.request(self.generate_payload(), MQTT_HOST, MQTT_USERNAME, MQTT_PASSWORD)
 
     def generate_payload(self) -> str:
         return json.dumps(
